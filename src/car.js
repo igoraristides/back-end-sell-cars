@@ -67,7 +67,7 @@ router.post("/", (req, res) => {
       }
     });
   });
-  res.send("True");
+  res.send("Cadastro realizado com sucesso");
 });
 
 //listarCarro
