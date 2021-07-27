@@ -3,9 +3,11 @@ const router = express.Router();
 
 const conexao = require("./database");
 
+//cadastrarCarro
 router.post("/", (req, res) => {
   const carro = {
-    nomeCarro: req.body.nomeCarro,
+    nomeCarro: req.body.nome,
+    ano: req.body.ano,
     preco: req.body.preco,
     combustivel: req.body.combustivel,
     marca: req.body.marca,
@@ -27,7 +29,6 @@ router.post("/", (req, res) => {
           }
         });
       } else {
-        console.log("Resultado --->", result);
         var equipamentos = {
           freioABS: req.body.freioABS,
           airbags: req.body.airbags,
@@ -69,8 +70,24 @@ router.post("/", (req, res) => {
   res.send("True");
 });
 
+//listarCarro
 router.get("/", (req, res) => {
-  var query = "Select * from Carro";
+  var query =
+    "select idCarro, nomeCarro,ano,preco,combustivel,marca,garantia,lugares,cambio,situacao,consumo,estoque,freioABS,airbags,faroisDeNeblina,arCondicionado,kitMultimidia,retrovisoresEletricos,vidrosEletricos,volanteMultifuncional,controleDeEstabilidade from Carro inner join Equipamentos on Equipamentos.Carro_idCarro = Carro.idCarro";
+  conexao.query(query, (error, result) => {
+    if (error) {
+      throw error;
+    } else {
+      return res.json(result);
+    }
+  });
+});
+
+//listarCarroporId
+router.get("/:id", (req, res) => {
+  var query =
+    "select idCarro,nomeCarro,ano,preco,combustivel,marca,garantia,lugares,cambio,situacao,consumo,estoque,freioABS,airbags,faroisDeNeblina,arCondicionado,kitMultimidia,retrovisoresEletricos,vidrosEletricos,volanteMultifuncional,controleDeEstabilidade from Carro inner join Equipamentos on Equipamentos.Carro_idCarro = Carro.idCarro where idCarro = " +
+    req.params.id;
   conexao.query(query, (error, result) => {
     if (error) {
       throw error;
