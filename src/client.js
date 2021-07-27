@@ -72,10 +72,9 @@ router.get("/", (req, res) => {
     if (error) {
       throw error;
     } else {
-      console.log(result);
+      return res.json(result);
     }
   });
-  res.send("True");
 });
 
 module.exports = router;
